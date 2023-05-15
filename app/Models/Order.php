@@ -7,13 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    public function user()
+    use SoftDeletes;
+    
+    protected $fillable = [
+        'invoice_number',
+        'customer_name',
+        'customer_number',
+        'fiscal_data',
+        'order_date',
+        'delivery_address',
+        'notes',
+        'status',
+    ];
+    
+    protected $dates = [
+        'order_date',
+        'deleted_at',
+    ];
+    
+    public function evidence()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function getImageUrl()
-    {
-        return Storage::url($this->image);
+        return $this->hasOne(OrderEvidence::class);
     }
 }
+
